@@ -7,6 +7,7 @@ namespace InvertedIndexDictionary
     {
         public string Text { get; }
         public int Id { get; set; }
+        public int NumberOfWords { get; set; } 
         public TextParser(string text, int id)
         {
             Text = text;
@@ -16,7 +17,9 @@ namespace InvertedIndexDictionary
         public Dictionary<string, List<int>> GetWords()
         {
             Dictionary<string, List<int>> wordBookIds = new Dictionary<string, List<int>>();
-            IEnumerable<string> words = Text.Split(new[] { ' ', '\t', '\n', '\r', '.', ',', ';', ':', '-', '!', '?', '—', '…', '*' }, StringSplitOptions.RemoveEmptyEntries);
+            IEnumerable<string> words = Text.Split(new[] { ' ', '\t', '\n', '\r', '.', ',', ';', ':', '-', '!', '?', '—', '…', '*', '¡', '¿', '‘', '’', '”', '“', '"', '(', ')', '/', '#', '•', '[', '©', '+', '=', '<', '>', '«', '»', '`' }, StringSplitOptions.RemoveEmptyEntries);
+
+            NumberOfWords = words.Count();
 
             foreach (string word in words)
             {
@@ -24,7 +27,7 @@ namespace InvertedIndexDictionary
                 {
                     string lowercaseWord = word.ToLower().Trim();
 
-                    if (!lowercaseWord.StartsWith("...") && !lowercaseWord.EndsWith("...") &&!wordBookIds.ContainsKey(lowercaseWord))
+                    if (!lowercaseWord.StartsWith("'") && !lowercaseWord.StartsWith("...") && !lowercaseWord.EndsWith("...") &&!wordBookIds.ContainsKey(lowercaseWord))
                     {
                         wordBookIds[lowercaseWord] = new List<int>();
                         wordBookIds[lowercaseWord].Add(Id);
