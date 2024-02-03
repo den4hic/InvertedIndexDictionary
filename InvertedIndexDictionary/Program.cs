@@ -36,13 +36,15 @@ result = result.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair =>
 
 OutputDictionary outputDictionary = new OutputDictionary(result, overallNumberOfWords);
 
-outputDictionary.ConsoleOutput();
-outputDictionary.FileOutput();
-outputDictionary.Serialize();
+//outputDictionary.ConsoleOutput();
+//outputDictionary.FileOutput();
+//outputDictionary.Serialize();
 
 BooleanSearch booleanSearch = new BooleanSearch();
 
-booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
-booleanSearch.GetSearchInvertedIndex(result, "door AND tree OR ground AND NOT ached");
+booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "murder AND evidence OR knife AND NOT gun");
+booleanSearch.GetSearchInvertedIndex(result, "murder AND evidence OR knife AND NOT gun");
 
-//booleanSearch.ConsoleOutputIndenceMatrix();
+booleanSearch.ConsoleOutputIndenceMatrix();
+Console.WriteLine("------------------------");
+booleanSearch.ConsoleOutputInvertedIndex();

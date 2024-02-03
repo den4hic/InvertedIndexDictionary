@@ -9,6 +9,7 @@ namespace InvertedIndexDictionary
     internal class BooleanSearch
     {
         public List<bool> ResultIncidenceMatrixList { get; private set; } = new List<bool>();
+        public List<int> ResultInvertedIndexList { get; private set; } = new List<int>();
 
         public static List<bool> OperationForIndenceMatrix(List<bool> firstRow, List<bool> secondRow, string operation)
         {
@@ -87,7 +88,63 @@ namespace InvertedIndexDictionary
         {
             var operationOrderAndWords = statment.Split(' ');
             var operationOrder = new List<string>();
+            var wordsIndexes = new List<List<int>>();
+            List<int> allBooksIndexes = FileReader.Books.Keys.ToList();
+
+            foreach (var word in operationOrderAndWords)
+            {
+                if (word == "AND" || word == "OR" || word == "NOT")
+                {
+                    operationOrder.Add(word);
+                    continue;
+                }
+                if (!result.ContainsKey(word))
+                {
+                    wordsIndexes.Add(new List<int>());
+                    continue;
+                }
+
+                wordsIndexes.Add(result[word]);
+            }
+
+            for (int i = 0; i < operationOrder.Count; i++)
+            {
+                if (operationOrder[i] == "NOT")
+                {
+                    var firstRow = wordsIndexes[i];
+                    wordsIndexes.RemoveAt(i);
+                    wordsIndexes.Insert(i, allBooksIndexes.Except(firstRow).ToList());
+                    operationOrder.RemoveAt(i);
+                }
+            }
+
+            foreach (var operation in operationOrder)
+            {
+                var firstRow = wordsIndexes[0];
+                var secondRow = wordsIndexes[1];
+                wordsIndexes.RemoveAt(0);
+                wordsIndexes.RemoveAt(0);
+                wordsIndexes.Insert(0, OperationForInvertedIndex(firstRow, secondRow, operation));
+            }
+
+            ResultInvertedIndexList = wordsIndexes[0];
         }
+
+        private List<int> OperationForInvertedIndex(List<int> firstRow, List<int> secondRow, string operation)
+        {
+            switch (operation)
+            {
+                case "AND":
+                    return firstRow.Intersect(secondRow).ToList();
+                case "OR":
+                    return firstRow.Union(secondRow).ToList();
+                default:
+                    break;
+            }
+
+            return null;
+        }
+
         public List<int> FindWordPosition(Dictionary<string, List<int>> invertedIndex,string word)
         {
             if(invertedIndex.ContainsKey(word))
@@ -99,7 +156,10 @@ namespace InvertedIndexDictionary
 
         public void ConsoleOutputInvertedIndex()
         {
-
+            for (int i = 0; i < ResultInvertedIndexList.Count; i++)
+            {
+                Console.WriteLine(ResultInvertedIndexList[i] + " -> " + FileReader.Books[ResultInvertedIndexList[i]]);   
+            }
         }
     }
 }
