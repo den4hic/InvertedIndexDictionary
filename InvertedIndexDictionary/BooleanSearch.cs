@@ -39,11 +39,27 @@ namespace InvertedIndexDictionary
                 }
                 if (!incidenceMatrix.Matrix.ContainsKey(word))
                 {
-                    Console.WriteLine("No such word in the dictionary");
-                    return;
+                    List<bool> emptyList = new List<bool>();
+                    for (int i = 0; i < FileReader.NumberOfFiles; i++)
+                    {
+                        emptyList.Add(false);
+                    }
+                    wordsIndexes.Add(emptyList);
+                    continue;
                 }
 
                 wordsIndexes.Add(incidenceMatrix.Matrix[word]);
+            }
+            
+            for (int i = 0; i < operationOrder.Count; i++)
+            {
+                if (operationOrder[i] == "NOT")
+                {
+                    var firstRow = wordsIndexes[i];
+                    wordsIndexes.RemoveAt(i);
+                    wordsIndexes.Insert(i, firstRow.Select(x => !x).ToList());
+                    operationOrder.RemoveAt(i);
+                }
             }
             
             foreach (var operation in operationOrder)
@@ -55,12 +71,18 @@ namespace InvertedIndexDictionary
                 wordsIndexes.Insert(0, OperationForIndenceMatrix(firstRow, secondRow, operation));
             }
 
-            foreach (var index in wordsIndexes[0])
-            {
-                Console.Write(index + " ");
-            }
+            ConsoleOutput(wordsIndexes[0]);
+        }
 
-            Console.WriteLine();
+        private void ConsoleOutput(List<bool> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i])
+                {
+                    Console.WriteLine(i + " -> " + FileReader.Books[i]);
+                }
+            }
         }
     }
 }

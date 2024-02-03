@@ -45,4 +45,4 @@ OutputDictionary outputDictionary = new OutputDictionary(result, overallNumberOf
 
 BooleanSearch booleanSearch = new BooleanSearch();
 
-booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "harry AND potter");
+booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
