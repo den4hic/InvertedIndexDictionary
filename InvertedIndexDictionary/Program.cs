@@ -18,7 +18,6 @@ for (int i = 0; i < files.Count; i++)
     overallNumberOfWords += textParser.NumberOfWords;
 }
 
-
 Dictionary<string, List<int>> result = new Dictionary<string, List<int>>();
 
 for (int i = 0; i < files.Count; i++)
@@ -41,10 +40,9 @@ outputDictionary.ConsoleOutput();
 outputDictionary.FileOutput();
 outputDictionary.Serialize();
 
-//incidenceMatrix.ConsoleOutput();
+BooleanSearch booleanSearch = new BooleanSearch();
 
-//BooleanSearch booleanSearch = new BooleanSearch();
-
-//booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
+booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
+booleanSearch.GetSearchInvertedIndex(result, "door AND tree OR ground AND NOT ached");
 
 //booleanSearch.ConsoleOutputIndenceMatrix();

@@ -73,7 +73,6 @@ namespace InvertedIndexDictionary
 
             ResultIncidenceMatrixList = wordsIndexes[0];
         }
-
         public void ConsoleOutputIndenceMatrix()
         {
             for (int i = 0; i < ResultIncidenceMatrixList.Count; i++)
@@ -83,6 +82,24 @@ namespace InvertedIndexDictionary
                     Console.WriteLine(i + " -> " + FileReader.Books[i]);
                 }
             }
+        }
+        public void GetSearchInvertedIndex(Dictionary<string, List<int>> result, string statment)
+        {
+            var operationOrderAndWords = statment.Split(' ');
+            var operationOrder = new List<string>();
+        }
+        public List<int> FindWordPosition(Dictionary<string, List<int>> invertedIndex,string word)
+        {
+            if(invertedIndex.ContainsKey(word))
+            {
+                return invertedIndex[word];
+            }
+            return new List<int>();
+        }
+
+        public void ConsoleOutputInvertedIndex()
+        {
+
         }
     }
 }
