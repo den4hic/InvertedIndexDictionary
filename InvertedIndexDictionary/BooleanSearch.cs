@@ -11,21 +11,6 @@ namespace InvertedIndexDictionary
         public List<bool> ResultIncidenceMatrixList { get; private set; } = new List<bool>();
         public List<int> ResultInvertedIndexList { get; private set; } = new List<int>();
 
-        public static List<bool> OperationForIndenceMatrix(List<bool> firstRow, List<bool> secondRow, string operation)
-        {
-            switch (operation)
-            {
-                case "AND":
-                    return firstRow.Zip(secondRow, (a, b) => a && b).ToList();
-                case "OR":
-                    return firstRow.Zip(secondRow, (a, b) => a || b).ToList();
-                default:
-                    break;
-            }
-
-            return null;
-        }
-
         public void GetSearchIncidenceMatrix(IncidenceMatrix incidenceMatrix, string statment)
         {
             var operationOrderAndWords = statment.Split(' ');
@@ -73,6 +58,20 @@ namespace InvertedIndexDictionary
             }
 
             ResultIncidenceMatrixList = wordsIndexes[0];
+        }
+        private static List<bool> OperationForIndenceMatrix(List<bool> firstRow, List<bool> secondRow, string operation)
+        {
+            switch (operation)
+            {
+                case "AND":
+                    return firstRow.Zip(secondRow, (a, b) => a && b).ToList();
+                case "OR":
+                    return firstRow.Zip(secondRow, (a, b) => a || b).ToList();
+                default:
+                    break;
+            }
+
+            return null;
         }
         public void ConsoleOutputIndenceMatrix()
         {
@@ -143,15 +142,6 @@ namespace InvertedIndexDictionary
             }
 
             return null;
-        }
-
-        public List<int> FindWordPosition(Dictionary<string, List<int>> invertedIndex,string word)
-        {
-            if(invertedIndex.ContainsKey(word))
-            {
-                return invertedIndex[word];
-            }
-            return new List<int>();
         }
 
         public void ConsoleOutputInvertedIndex()
