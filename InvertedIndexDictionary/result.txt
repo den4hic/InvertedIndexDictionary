@@ -1,7 +1,7 @@
 Amount of unique words: 26870
 Amount of books: 10
 Overall number of words: 959634
-Overall size of all books: 6750 killobytes
+Overall size of all books: 6750 kilobytes
 
  2 
 – 9 

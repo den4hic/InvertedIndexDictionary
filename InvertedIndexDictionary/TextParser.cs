@@ -5,6 +5,7 @@ namespace InvertedIndexDictionary
 {
     internal class TextParser
     {
+        public string[] Words { get; set; }
         public string Text { get; }
         public int Id { get; set; }
         public int NumberOfWords { get; set; } 
@@ -12,12 +13,18 @@ namespace InvertedIndexDictionary
         {
             Text = text;
             Id = id;
+            Words = RemoveSpecialCharacters(text);
+        }
+
+        private string[] RemoveSpecialCharacters(string word)
+        {
+            return word.Split(new[] { ' ', '\t', '\n', '\r', '.', ',', ';', ':', '-', '!', '?', '—', '…', '*', '¡', '¿', '‘', '’', '”', '“', '"', '(', ')', '/', '#', '•', '[', '©', '+', '=', '<', '>', '«', '»', '`' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public Dictionary<string, List<int>> GetWords()
         {
             Dictionary<string, List<int>> wordBookIds = new Dictionary<string, List<int>>();
-            IEnumerable<string> words = Text.Split(new[] { ' ', '\t', '\n', '\r', '.', ',', ';', ':', '-', '!', '?', '—', '…', '*', '¡', '¿', '‘', '’', '”', '“', '"', '(', ')', '/', '#', '•', '[', '©', '+', '=', '<', '>', '«', '»', '`' }, StringSplitOptions.RemoveEmptyEntries);
+            IEnumerable<string> words = Words;
 
             NumberOfWords = words.Count();
 

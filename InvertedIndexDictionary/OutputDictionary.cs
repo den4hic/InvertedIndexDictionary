@@ -6,7 +6,6 @@ namespace InvertedIndexDictionary
     [XmlRoot("OutputDictionary")]
     public class OutputDictionary
     {
-        [XmlElement("OverallSize")]
         public static int OverallSize { get; set; }
 
         [XmlArray("Result")]
@@ -16,7 +15,7 @@ namespace InvertedIndexDictionary
         [XmlElement("OverallNumberOfWords")]
         public int OverallNumberOfWords { get; set; }
 
-        public OutputDictionary() { } // Parameterless constructor for serialization
+        public OutputDictionary() { }
 
         public OutputDictionary(Dictionary<string, List<int>> result, int overallNumberOfWords)
         {
@@ -86,10 +85,10 @@ namespace InvertedIndexDictionary
     public class WordItem
     {
         [XmlElement("Key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         [XmlArray("Values")]
         [XmlArrayItem("Value")]
-        public List<int> Values { get; set; }
+        public List<int>? Values { get; set; }
     }
 }

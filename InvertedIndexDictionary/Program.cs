@@ -5,15 +5,19 @@ List<int> pointer = new List<int>();
 List<Dictionary<string, List<int>>> allWords = new List<Dictionary<string, List<int>>>();
 int overallNumberOfWords = 0;
 
+IncidenceMatrix incidenceMatrix = new IncidenceMatrix();
+
 for (int i = 0; i < files.Count; i++)
 {
     pointer.Add(0);
     TextParser textParser = new TextParser(FileReader.GetTextFromFile(files[i]), i);
 
-    allWords.Add(textParser.GetWords());   
+    allWords.Add(textParser.GetWords());
+    incidenceMatrix.AddWords(textParser.Words, i);
 
     overallNumberOfWords += textParser.NumberOfWords;
 }
+
 
 Dictionary<string, List<int>> result = new Dictionary<string, List<int>>();
 
@@ -35,4 +39,10 @@ OutputDictionary outputDictionary = new OutputDictionary(result, overallNumberOf
 
 //outputDictionary.ConsoleOutput();
 //outputDictionary.FileOutput();
-outputDictionary.Serialize();
+//outputDictionary.Serialize();
+
+//incidenceMatrix.ConsoleOutput();
+
+BooleanSearch booleanSearch = new BooleanSearch();
+
+booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "harry AND potter");
