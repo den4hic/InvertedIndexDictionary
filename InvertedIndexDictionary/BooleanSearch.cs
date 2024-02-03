@@ -8,6 +8,8 @@ namespace InvertedIndexDictionary
 {
     internal class BooleanSearch
     {
+        public List<bool> ResultIncidenceMatrixList { get; private set; } = new List<bool>();
+
         public static List<bool> OperationForIndenceMatrix(List<bool> firstRow, List<bool> secondRow, string operation)
         {
             switch (operation)
@@ -16,8 +18,6 @@ namespace InvertedIndexDictionary
                     return firstRow.Zip(secondRow, (a, b) => a && b).ToList();
                 case "OR":
                     return firstRow.Zip(secondRow, (a, b) => a || b).ToList();
-                case "NOT":
-                    break;
                 default:
                     break;
             }
@@ -71,14 +71,14 @@ namespace InvertedIndexDictionary
                 wordsIndexes.Insert(0, OperationForIndenceMatrix(firstRow, secondRow, operation));
             }
 
-            ConsoleOutput(wordsIndexes[0]);
+            ResultIncidenceMatrixList = wordsIndexes[0];
         }
 
-        private void ConsoleOutput(List<bool> list)
+        public void ConsoleOutputIndenceMatrix()
         {
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < ResultIncidenceMatrixList.Count; i++)
             {
-                if (list[i])
+                if (ResultIncidenceMatrixList[i])
                 {
                     Console.WriteLine(i + " -> " + FileReader.Books[i]);
                 }

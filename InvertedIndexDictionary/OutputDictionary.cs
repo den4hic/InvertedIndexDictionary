@@ -45,11 +45,16 @@ namespace InvertedIndexDictionary
 
         private string WriteInfoAboutText()
         {
-            string info = "Amount of unique words: " + Result.Count + "\n";
-            info += "Amount of books: " + Result.SelectMany(x => x.Values).Distinct().Count() + "\n";
-            info += "Overall number of words: " + OverallNumberOfWords + "\n";
-            info += "Overall size of all books: " + OverallSize + " kilobytes\n";
-            return info;
+            StringBuilder info = new StringBuilder();
+            foreach (var book in FileReader.Books)
+            {
+                info.AppendLine(book.Key + " -> " + book.Value);
+            }
+            info.AppendLine("Amount of unique words: " + Result.Count);
+            info.AppendLine("Amount of books: " + Result.SelectMany(x => x.Values).Distinct().Count());
+            info.AppendLine("Overall number of words: " + OverallNumberOfWords);
+            info.AppendLine("Overall size of all books: " + OverallSize);
+            return info.ToString();
         }
 
         public void FileOutput()

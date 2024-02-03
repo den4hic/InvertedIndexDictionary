@@ -37,12 +37,14 @@ result = result.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair =>
 
 OutputDictionary outputDictionary = new OutputDictionary(result, overallNumberOfWords);
 
-//outputDictionary.ConsoleOutput();
-//outputDictionary.FileOutput();
-//outputDictionary.Serialize();
+outputDictionary.ConsoleOutput();
+outputDictionary.FileOutput();
+outputDictionary.Serialize();
 
 //incidenceMatrix.ConsoleOutput();
 
-BooleanSearch booleanSearch = new BooleanSearch();
+//BooleanSearch booleanSearch = new BooleanSearch();
 
-booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
+//booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "door AND tree OR ground AND NOT ached");
+
+//booleanSearch.ConsoleOutputIndenceMatrix();
