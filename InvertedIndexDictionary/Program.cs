@@ -1,4 +1,5 @@
 ﻿using InvertedIndexDictionary;
+using System.Diagnostics;
 
 List<string> files = new List<string>() { "book1.fb2", "book2.fb2", "book3.fb2", "book4.fb2", "book5.fb2", "book6.fb2", "book7.fb2", "book8.fb2", "book9.fb2", "book10.fb2" };
 List<int> pointer = new List<int>();
@@ -42,9 +43,18 @@ OutputDictionary outputDictionary = new OutputDictionary(result, overallNumberOf
 
 BooleanSearch booleanSearch = new BooleanSearch();
 
-booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "murder AND evidence OR knife AND NOT gun");
-booleanSearch.GetSearchInvertedIndex(result, "murder AND evidence OR knife AND NOT gun");
+Stopwatch stopwatch = new Stopwatch();
+stopwatch.Start();
+booleanSearch.GetSearchIncidenceMatrix(incidenceMatrix, "murder AND evidence OR knife AND NOT gun AND either AND me AND he");
+stopwatch.Stop();
+TimeSpan timeSpan1 = stopwatch.Elapsed;
+stopwatch.Restart();
+booleanSearch.GetSearchInvertedIndex(result, "murder AND evidence OR knife AND NOT gun AND either AND me AND he");
+stopwatch.Stop();
+TimeSpan timeSpan2 = stopwatch.Elapsed;
 
 booleanSearch.ConsoleOutputIndenceMatrix();
+Console.WriteLine($"Time is {timeSpan1}");
 Console.WriteLine("------------------------");
 booleanSearch.ConsoleOutputInvertedIndex();
+Console.WriteLine($"Time is {timeSpan2}");
