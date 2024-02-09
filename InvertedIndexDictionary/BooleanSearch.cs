@@ -8,6 +8,7 @@ namespace InvertedIndexDictionary
 {
     internal class BooleanSearch
     {
+        public int MyProperty { get; set; }
         public List<bool> ResultIncidenceMatrixList { get; private set; } = new List<bool>();
         public List<int> ResultInvertedIndexList { get; private set; } = new List<int>();
 
