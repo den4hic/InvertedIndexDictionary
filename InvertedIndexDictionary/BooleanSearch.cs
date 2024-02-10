@@ -8,7 +8,6 @@ namespace InvertedIndexDictionary
 {
     internal class BooleanSearch
     {
-        public int MyProperty { get; set; }
         public List<bool> ResultIncidenceMatrixList { get; private set; } = new List<bool>();
         public List<int> ResultInvertedIndexList { get; private set; } = new List<int>();
 
@@ -151,6 +150,69 @@ namespace InvertedIndexDictionary
             {
                 Console.WriteLine(ResultInvertedIndexList[i] + " -> " + FileReader.Books[ResultInvertedIndexList[i]]);   
             }
+        }
+
+        public void GetSearchTwoWordsInvertedIndex(Dictionary<string, List<int>> result, string statment)
+        {
+            var operationOrderAndWords = statment.Split(' ');
+            var operationOrder = new List<string>();
+            var wordsIndexes = new List<List<int>>();
+            List<int> allBooksIndexes = FileReader.Books.Keys.ToList();
+
+            string twoWords = "";
+
+            foreach (var word in operationOrderAndWords)
+            {
+                if (word == "AND" || word == "OR" || word == "NOT")
+                {
+                    twoWords = twoWords.Trim();
+                    if (!result.ContainsKey(twoWords))
+                    {
+                        wordsIndexes.Add(new List<int>());
+                        continue;
+                    }
+
+                    wordsIndexes.Add(result[twoWords]);
+
+                    twoWords = "";
+                    operationOrder.Add(word);
+                    continue;
+                }
+
+                twoWords += word + " ";
+            }
+
+            twoWords = twoWords.Trim();
+            if (!result.ContainsKey(twoWords))
+            {
+                wordsIndexes.Add(new List<int>());
+            } else
+            {
+                wordsIndexes.Add(result[twoWords]);
+            }
+
+
+            for (int i = 0; i < operationOrder.Count; i++)
+            {
+                if (operationOrder[i] == "NOT")
+                {
+                    var firstRow = wordsIndexes[i];
+                    wordsIndexes.RemoveAt(i);
+                    wordsIndexes.Insert(i, allBooksIndexes.Except(firstRow).ToList());
+                    operationOrder.RemoveAt(i);
+                }
+            }
+
+            foreach (var operation in operationOrder)
+            {
+                var firstRow = wordsIndexes[0];
+                var secondRow = wordsIndexes[1];
+                wordsIndexes.RemoveAt(0);
+                wordsIndexes.RemoveAt(0);
+                wordsIndexes.Insert(0, OperationForInvertedIndex(firstRow, secondRow, operation));
+            }
+
+            ResultInvertedIndexList = wordsIndexes[0];
         }
     }
 }
