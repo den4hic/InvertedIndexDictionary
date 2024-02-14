@@ -15,6 +15,8 @@ namespace InvertedIndexDictionary
 			var words = s.Split(' ').Reverse().ToArray();
 			HashSet<int> hashSet = new HashSet<int>();
 
+            words = words.Select(word => word.ToLower()).ToArray();
+
             if(words.All(word => CoordinateIndexesResult.ContainsKey(word)))
             {
                 List<Dictionary<int, List<int>>> dicts = new List<Dictionary<int, List<int>>>();
