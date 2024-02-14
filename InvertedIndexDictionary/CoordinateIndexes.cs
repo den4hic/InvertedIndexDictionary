@@ -10,7 +10,44 @@ namespace InvertedIndexDictionary
     {
         public static Dictionary<string, Dictionary<int, List<int>>> CoordinateIndexesResult { get; set; } = new Dictionary<string, Dictionary<int, List<int>>>();
 
-        public static void GetSearchWithCoordinate(string phraseToSearch)
+	    public static void GetSearchWithCoordinateForManyWords(string s)
+		{
+			var words = s.Split(' ').Reverse().ToArray();
+			HashSet<int> hashSet = new HashSet<int>();
+
+            if(words.All(word => CoordinateIndexesResult.ContainsKey(word)))
+            {
+                List<Dictionary<int, List<int>>> dicts = new List<Dictionary<int, List<int>>>();
+                foreach (var word in words)
+                {
+                    dicts.Add(CoordinateIndexesResult[word]);
+                }
+
+                int count = words.Length;
+
+                for(int i = 0; i < count; i++)
+                {
+                    dicts[i] = dicts[i].ToDictionary(pair => pair.Key, pair => pair.Value.Select(value => value + i).ToList());
+                }
+
+                var answer = dicts[0].Join(dicts[1], pair => pair.Key, pair => pair.Key, (pair1, pair2) =>
+                {
+					var list1 = pair1.Value;
+					var list2 = pair2.Value;
+					var result = list1.Intersect(list2).ToList();
+
+					if (result.Count != 0)
+                    {
+						hashSet.Add(pair1.Key);
+					}
+
+					return -1;
+				}).ToList();
+
+				ConsoleOutputSearchWithCoordinates(hashSet);
+			}
+		}
+		public static void GetSearchWithCoordinate(string phraseToSearch)
         {
             var words = phraseToSearch.Split(' ');
             HashSet<int> hashSet = new HashSet<int>();
@@ -65,5 +102,5 @@ namespace InvertedIndexDictionary
                 Console.WriteLine(index + " -> " + FileReader.Books[index]);
             }
         }
-    }
+	}
 }

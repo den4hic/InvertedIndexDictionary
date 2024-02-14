@@ -65,7 +65,8 @@ result = result.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair =>
 //Console.WriteLine($"Time is {timeSpan2}");
 
 //CoordinateIndexes.OutputCoordinateIndexes();
-CoordinateIndexes.GetSearchWithCoordinate("two women");
+//CoordinateIndexes.GetSearchWithCoordinate("two women");
+CoordinateIndexes.GetSearchWithCoordinateForManyWords("my name is");
 TwoWordsIndex.MakeInvertedTwoWordsIndex(allTwoWords, files.Count);
 //TwoWordsIndex.OutputTwoWordsIndex();
 BooleanSearch booleanSearch = new BooleanSearch();
